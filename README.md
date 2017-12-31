@@ -58,7 +58,7 @@ g++ ForLoopBenchmark.cpp -O2 -std=c++14
 
 ## Code
 
-Input below code into [Godbolt Online C++ Compiler](https://godbolt.org/) to see the generated assembly code.
+Copy below code into [Godbolt Online C++ Compiler](https://godbolt.org/) to see the generated assembly code.
 
 ```C++
 #include <cstdint>
