@@ -1,5 +1,6 @@
-# forloopbenchmark
-C++ Summation For Loop Benchmark Results
+# C++ Summing For Loop Benchmark
+
+The initial motivation is to find out the overhead of various types of for loop in C++
 
 __Test Machine:__ Intel i7 6700 at 3.4 GHz
 
@@ -24,7 +25,6 @@ movdqu   xmm0, XMMWORD PTR vec$[rsp+rax*8]
 
 clang++ generate the similar code for all 4 for loops. Godbolt showed clang++ vectorized the for loop with SSE2.
 
-
 ```
 # clang++ ForLoopBenchmark.cpp -O2 -std=c++14
  Increment For Loop:  392ms, sum:500000500000
@@ -47,7 +47,7 @@ g++ also generate the similar code for all 4 for loops but it did not vectorize 
 
 ## Code
 
-Input below code into (Godbolt Online C++ Compiler)[https://godbolt.org/] to see the generated assembly code.
+Input below code into [Godbolt Online C++ Compiler](https://godbolt.org/) to see the generated assembly code.
 
 ```C++
 #include <cstdint>
