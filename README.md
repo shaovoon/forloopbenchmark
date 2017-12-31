@@ -1,9 +1,11 @@
 # forloopbenchmark
 C++ Summation For Loop Benchmark Results
 
-Machine: Intel i7 6700 at 3.4 GHz
+__Test Machine:__ Intel i7 6700 at 3.4 GHz
 
 ## Visual C++ 2017 (15.4 Update) result 
+
+Please ignore the sum result. I display resultant sum to prevent compiler from optimize away for loop.
 
 ```
  Increment For Loop:  599ms, sum:500000500000

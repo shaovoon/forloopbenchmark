@@ -66,7 +66,8 @@ int main(int argc, char *argv[])
 	for (size_t k = 0; k < MAX_LOOP; ++k)
 	{
 		sum = 0;
-		for (auto it = vec.cbegin(); it!=vec.cend(); ++it)
+		//auto end_it = vec.cend();
+		for (auto it = vec.cbegin(); it != vec.cend(); ++it)
 		{
 			sum += *it;
 		}

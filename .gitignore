@@ -39,3 +39,18 @@
 README.txt
 
 .vs
+*/[dD]ebug/
+*/[rR]elease/
+*/*/[dD]ebug/
+*/*/[rR]elease/
+*/*/*/[dD]ebug/
+*/*/*/[rR]elease/
+*/ipch/
+*/*/ipch/
+*/*/bin/
+*/*/obj/
+
+*.ipch
+*.db-wal
+*.db-shm
+*.ide
