@@ -103,5 +103,9 @@ uint64_t func4()
     sum = std::accumulate(std::cbegin(vec), std::cend(vec), Zero);
     return sum;
 }
-
 ```
+
+## "Is this information even useful?"
+
+There is this [FIX Protocol](https://en.wikipedia.org/wiki/Financial_Information_eXchange#Checksum) which makes use of summing to calculate checksum of its message.
+
