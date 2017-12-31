@@ -1,6 +1,6 @@
 # C++ Summing For Loop Benchmark
 
-The initial motivation is to find out the overhead of various types of for loop in C++
+The initial motivation is to find out the overhead of different for-loop types in C++
 
 __Test Machine:__ Intel i7 6700 at 3.4 GHz
 
@@ -21,7 +21,7 @@ Investigations shown multiplication in this below assembly could be the culprit 
 movdqu   xmm0, XMMWORD PTR vec$[rsp+rax*8]
 ```
 
-## Cygwin clang++ 3.9.1 results. 
+## Cygwin clang++ 3.9.1 result
 
 clang++ generate the similar code for all 4 for loops. Godbolt showed clang++ vectorized the for loop with SSE2.
 
@@ -33,7 +33,7 @@ clang++ generate the similar code for all 4 for loops. Godbolt showed clang++ ve
         Accumulator:  391ms, sum:500000500000
 ```
 
-## Cygwin g++ 5.4 results. 
+## Cygwin g++ 5.4 result 
 
 g++ also generate the similar code for all 4 code but it did not vectorize the loops.
 
