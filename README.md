@@ -17,14 +17,14 @@ Please ignore the sum result. I display resultant sum to prevent compiler from o
 
 Investigations shown multiplication in this below assembly could be the culprit in the slowdown in the __Increment For Loop__ . 
 
+```
+movdqu   xmm0, XMMWORD PTR vec$[rsp+rax*8]
+```
+
 As for the __Range For Loop__, the address is incremented by 16 (8 * 2 because of loop unrolling), there is no multiplication to calculate the address. Accumulator use the same tactics. Earlier in the decade, C programmers are baffled as to why std::accumulate is faster than for loop. Now we know the reason.
 
 
 As for the __Iterator For Loop__ poor result, my guess is the iterator overhead.
-
-```
-movdqu   xmm0, XMMWORD PTR vec$[rsp+rax*8]
-```
 
 ## Cygwin clang++ 3.9.1 result
 
