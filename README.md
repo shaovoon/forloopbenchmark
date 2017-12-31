@@ -1,63 +1,100 @@
 # forloopbenchmark
-C++ Summation For Loop Benchmark
+C++ Summation For Loop Benchmark Results
 
-Visual C++ 2017 (15.4 Update) on Intel i7 6700 at 3.4 GHz
+Machine: Intel i7 6700 at 3.4 GHz
+
+Visual C++ 2017 (15.4 Update) result. 
 
 ```
- Increment For Loop:  472ms, sum:500000500000
-     Range For Loop:  340ms, sum:500000500000
-  Iterator For Loop:  487ms, sum:500000500000
-        Accumulator:  331ms, sum:500000500000
+ Increment For Loop:  599ms, sum:500000500000
+     Range For Loop:  446ms, sum:500000500000
+  Iterator For Loop:  558ms, sum:500000500000
+        Accumulator:  437ms, sum:500000500000
 ```
 
-Benchmark code
+Investigations shown multiplication in this below assembly could be the culprit in the slowdown in the __Increment For Loop__ . As for the __Iterator For Loop__ poor result, my guess is the iterator overhead.
+
+```
+movdqu   xmm0, XMMWORD PTR vec$[rsp+rax*8]
+```
+
+Cygwin clang++ 3.9.1 results. clang++ generate the similar code for all 4 for loops. Godbolt showed clang++ vectorized the for loop with SSE2.
+
+
+```
+# clang++ ForLoopBenchmark.cpp -O2 -std=c++14
+ Increment For Loop:  392ms, sum:500000500000
+     Range For Loop:  406ms, sum:500000500000
+  Iterator For Loop:  381ms, sum:500000500000
+        Accumulator:  391ms, sum:500000500000
+```
+
+Cygwin g++ 5.4 results. g++ also generate the similar code for all 4 for loops. g++ did not vectorize for loop
+
+```
+# g++ ForLoopBenchmark.cpp -O2 -std=c++14
+ Increment For Loop:  558ms, sum:500000500000
+     Range For Loop:  552ms, sum:500000500000
+  Iterator For Loop:  542ms, sum:500000500000
+        Accumulator:  544ms, sum:500000500000
+```
+
+
+Input below code into (Godbolt Online C++ Compiler)[https://godbolt.org/] to see the generated assembly code.
 
 ```C++
-const size_t MAX_LOOP = (argc == 2) ? atoi(argv[1]) : 1000;
+#include <cstdint>
+#include <algorithm>
+#include <numeric>
+#include <iterator>
 
-std::vector<uint64_t> vec(1000000);
-std::iota(vec.begin(), vec.end(), 1);
-timer stopwatch;
+const size_t LEN = 1000000;
 
-stopwatch.start_timing("Increment For Loop");
-uint64_t sum = 0;
-for (size_t k = 0; k < MAX_LOOP; ++k)
+uint64_t func1()
 {
-    sum = 0;
-    for (size_t i = 0; i < vec.size(); ++i)
-    {
-        sum += vec[i];
-    }
-}
-stopwatch.stop_timing(sum);
+	uint64_t vec[LEN];
 
-stopwatch.start_timing("Range For Loop");
-for (size_t k = 0; k < MAX_LOOP; ++k)
-{
-    sum = 0;
-    for (auto n : vec)
-    {
-        sum += n;
-    }
+	uint64_t sum = 0;
+	for (size_t i = 0; i < LEN; ++i)
+	{
+		sum += vec[i];
+	}
+	return sum;
 }
-stopwatch.stop_timing(sum);
 
-stopwatch.start_timing("Iterator For Loop");
-for (size_t k = 0; k < MAX_LOOP; ++k)
+uint64_t func2()
 {
-    sum = 0;
-    for (auto it = vec.cbegin(); it!=vec.cend(); ++it)
-    {
-        sum += *it;
-    }
-}
-stopwatch.stop_timing(sum);
+	uint64_t vec[LEN];
 
-stopwatch.start_timing("Accumulator");
-constexpr const uint64_t Zero = 0;
-for (size_t k = 0; k < MAX_LOOP; ++k)
-{
-    sum = std::accumulate(vec.cbegin(), vec.cend(), Zero);
+	uint64_t sum = 0;
+	for (auto n : vec)
+	{
+		sum += n;
+	}
+	return sum;
 }
-stopwatch.stop_timing(sum);
+
+uint64_t func3()
+{
+	uint64_t vec[LEN];
+
+	uint64_t sum = 0;
+	for (auto it = std::cbegin(vec); it != std::cend(vec); ++it)
+	{
+		sum += *it;
+	}
+	return sum;
+}
+
+uint64_t func4()
+{
+	uint64_t vec[LEN];
+
+	uint64_t sum = 0;
+	const uint64_t Zero = 0;
+
+	sum = std::accumulate(std::cbegin(vec), std::cend(vec), Zero);
+	return sum;
+}
+
 ```
