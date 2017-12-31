@@ -6,7 +6,7 @@ __Test Machine:__ Intel i7 6700 at 3.4 GHz
 
 ## Visual C++ 2017 (15.4 Update) result 
 
-Please ignore the sum result. I display resultant sum to prevent compiler from optimize away for loop.
+Please ignore the sum result. I display resultant sum to prevent compiler from optimizing away for loop.
 
 ```
  Increment For Loop:  599ms, sum:500000500000
