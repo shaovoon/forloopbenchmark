@@ -35,7 +35,7 @@ clang++ generate the similar code for all 4 for loops. Godbolt showed clang++ ve
 
 ## Cygwin g++ 5.4 results. 
 
-g++ also generate the similar code for all 4 for loops but it did not vectorize for loop
+g++ also generate the similar code for all 4 code but it did not vectorize the loops.
 
 ```
 # g++ ForLoopBenchmark.cpp -O2 -std=c++14
@@ -59,49 +59,49 @@ const size_t LEN = 1000000;
 
 uint64_t func1()
 {
-	uint64_t vec[LEN];
+    uint64_t vec[LEN];
 
-	uint64_t sum = 0;
-	for (size_t i = 0; i < LEN; ++i)
-	{
-		sum += vec[i];
-	}
-	return sum;
+    uint64_t sum = 0;
+    for (size_t i = 0; i < LEN; ++i)
+    {
+        sum += vec[i];
+    }
+    return sum;
 }
 
 uint64_t func2()
 {
-	uint64_t vec[LEN];
+    uint64_t vec[LEN];
 
-	uint64_t sum = 0;
-	for (auto n : vec)
-	{
-		sum += n;
-	}
-	return sum;
+    uint64_t sum = 0;
+    for (auto n : vec)
+    {
+        sum += n;
+    }
+    return sum;
 }
 
 uint64_t func3()
 {
-	uint64_t vec[LEN];
+    uint64_t vec[LEN];
 
-	uint64_t sum = 0;
-	for (auto it = std::cbegin(vec); it != std::cend(vec); ++it)
-	{
-		sum += *it;
-	}
-	return sum;
+    uint64_t sum = 0;
+    for (auto it = std::cbegin(vec); it != std::cend(vec); ++it)
+    {
+        sum += *it;
+    }
+    return sum;
 }
 
 uint64_t func4()
 {
-	uint64_t vec[LEN];
+    uint64_t vec[LEN];
 
-	uint64_t sum = 0;
-	const uint64_t Zero = 0;
+    uint64_t sum = 0;
+    const uint64_t Zero = 0;
 
-	sum = std::accumulate(std::cbegin(vec), std::cend(vec), Zero);
-	return sum;
+    sum = std::accumulate(std::cbegin(vec), std::cend(vec), Zero);
+    return sum;
 }
 
 ```
