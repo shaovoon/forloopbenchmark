@@ -1,6 +1,6 @@
 # C++ Summing For Loop Benchmark
 
-The initial motivation is to find out the overhead of different for-loop types in C++
+The initial motivation is to find out the overhead of different for-loop types in C++.
 
 __Test Machine:__ Intel i7 6700 at 3.4 GHz
 
@@ -112,5 +112,5 @@ uint64_t func4()
 
 ## "Is this information even useful?"
 
-There is this [FIX Protocol](https://en.wikipedia.org/wiki/Financial_Information_eXchange#Checksum) which makes use of summing to calculate checksum of its message.
+There is [FIX Protocol](https://en.wikipedia.org/wiki/Financial_Information_eXchange#Checksum) which makes use of summing to calculate checksum of its message.
 
