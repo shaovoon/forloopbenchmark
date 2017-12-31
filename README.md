@@ -60,6 +60,8 @@ g++ ForLoopBenchmark.cpp -O2 -std=c++14
 
 Copy below code into [Godbolt Online C++ Compiler](https://godbolt.org/) to see the generated assembly code.
 
+__Note:__ The array or vector are initialized in the benchmark. The simplified code below is for you to copy and paste into the [Godbolt Online C++ Compiler](https://godbolt.org/) so that you only read the relevant assembly code, including other code just adds to noise where you have to wade through to find your assembly code.
+
 ```C++
 #include <cstdint>
 #include <algorithm>
