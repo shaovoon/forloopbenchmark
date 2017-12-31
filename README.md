@@ -6,7 +6,7 @@ __Test Machine:__ Intel i7 6700 at 3.4 GHz
 
 ## Visual C++ 2017 (15.4 Update) result 
 
-Please ignore the sum result. I display resultant sum to prevent compiler from optimizing away for loop.
+Please ignore the sum result. I display resultant sum to prevent compiler from optimizing away for loop. Visual C++ vectorize the code with SSE2.
 
 ```
  Increment For Loop:  599ms, sum:500000500000
@@ -28,7 +28,7 @@ As for the __Iterator For Loop__ poor result, my guess is the iterator overhead.
 
 ## Cygwin clang++ 3.9.1 Result
 
-clang++ generate the similar code for all 4 for loops. Godbolt showed clang++ vectorized the for loop with SSE2. To compile the code with clang++, use the command below.
+clang++ generate the similar code for all 4 for loops. clang++ vectorized code with SSE2. To compile the code with clang++, use the command below.
 
 ```
 clang++ ForLoopBenchmark.cpp -O2 -std=c++14
