@@ -3,7 +3,7 @@ C++ Summation For Loop Benchmark Results
 
 Machine: Intel i7 6700 at 3.4 GHz
 
-Visual C++ 2017 (15.4 Update) result. 
+## Visual C++ 2017 (15.4 Update) result 
 
 ```
  Increment For Loop:  599ms, sum:500000500000
@@ -18,7 +18,9 @@ Investigations shown multiplication in this below assembly could be the culprit 
 movdqu   xmm0, XMMWORD PTR vec$[rsp+rax*8]
 ```
 
-Cygwin clang++ 3.9.1 results. clang++ generate the similar code for all 4 for loops. Godbolt showed clang++ vectorized the for loop with SSE2.
+## Cygwin clang++ 3.9.1 results. 
+
+clang++ generate the similar code for all 4 for loops. Godbolt showed clang++ vectorized the for loop with SSE2.
 
 
 ```
@@ -29,7 +31,9 @@ Cygwin clang++ 3.9.1 results. clang++ generate the similar code for all 4 for lo
         Accumulator:  391ms, sum:500000500000
 ```
 
-Cygwin g++ 5.4 results. g++ also generate the similar code for all 4 for loops. g++ did not vectorize for loop
+## Cygwin g++ 5.4 results. 
+
+g++ also generate the similar code for all 4 for loops but it did not vectorize for loop
 
 ```
 # g++ ForLoopBenchmark.cpp -O2 -std=c++14
@@ -39,6 +43,7 @@ Cygwin g++ 5.4 results. g++ also generate the similar code for all 4 for loops. 
         Accumulator:  544ms, sum:500000500000
 ```
 
+## Code
 
 Input below code into (Godbolt Online C++ Compiler)[https://godbolt.org/] to see the generated assembly code.
 
