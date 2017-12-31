@@ -28,7 +28,7 @@ As for the __Iterator For Loop__ poor result, my guess is the iterator overhead.
 
 ## Cygwin clang++ 3.9.1 result
 
-clang++ generate the similar code for all 4 for loops. Godbolt showed clang++ vectorized the for loop with SSE2.
+clang++ generate the similar code for all 4 for loops. Godbolt showed clang++ vectorized the for loop with SSE2. To compile the code with clang++, use the command below.
 
 ```
 # clang++ ForLoopBenchmark.cpp -O2 -std=c++14
@@ -40,7 +40,7 @@ clang++ generate the similar code for all 4 for loops. Godbolt showed clang++ ve
 
 ## Cygwin g++ 5.4 result 
 
-g++ also generate the similar code for all 4 code but it did not vectorize the loops.
+g++ also generate the similar code for all 4 code but it did not vectorize the loops. To compile the code with g++, use the command below.
 
 ```
 # g++ ForLoopBenchmark.cpp -O2 -std=c++14
