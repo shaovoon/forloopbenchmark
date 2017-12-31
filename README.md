@@ -26,24 +26,30 @@ As for the __Range For Loop__, the address is incremented by 16 (8 + 8 because o
 
 As for the __Iterator For Loop__ poor result, my guess is the iterator overhead.
 
-## Cygwin clang++ 3.9.1 result
+## Cygwin clang++ 3.9.1 Result
 
 clang++ generate the similar code for all 4 for loops. Godbolt showed clang++ vectorized the for loop with SSE2. To compile the code with clang++, use the command below.
 
 ```
-# clang++ ForLoopBenchmark.cpp -O2 -std=c++14
+clang++ ForLoopBenchmark.cpp -O2 -std=c++14
+```
+
+```
  Increment For Loop:  392ms, sum:500000500000
      Range For Loop:  406ms, sum:500000500000
   Iterator For Loop:  381ms, sum:500000500000
         Accumulator:  391ms, sum:500000500000
 ```
 
-## Cygwin g++ 5.4 result 
+## Cygwin g++ 5.4 Result 
 
 g++ also generate the similar code for all 4 code but it did not vectorize the loops. To compile the code with g++, use the command below.
 
 ```
-# g++ ForLoopBenchmark.cpp -O2 -std=c++14
+g++ ForLoopBenchmark.cpp -O2 -std=c++14
+```
+
+```
  Increment For Loop:  558ms, sum:500000500000
      Range For Loop:  552ms, sum:500000500000
   Iterator For Loop:  542ms, sum:500000500000
