@@ -128,4 +128,4 @@ uint64_t func4()
 
 There is [FIX Protocol](https://en.wikipedia.org/wiki/Financial_Information_eXchange#Checksum) which makes use of summing to calculate checksum of its message.
 
-If you find Godbolt useful, do consider becoming a [patreon](https://www.patreon.com/mattgodbolt) of Matt Godbolt to show your appreciation and help him to defray some monthly server costs. Of course, donation is not obligatory. I have been his patreon since December.
+If you find Godbolt useful, do consider becoming a [patreon](https://www.patreon.com/mattgodbolt) of Matt Godbolt to show your appreciation and help him to defray monthly server costs. Of course, donation is not obligatory. I have been his patreon since December.
