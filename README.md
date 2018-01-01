@@ -25,7 +25,7 @@ sum += vec[i];
 movdqu   xmm0, XMMWORD PTR vec$[rsp+rax*8] <== multiplication by 8
 ```
 
-As for the __Range For Loop__, the address is incremented by 16 (8 + 8 because of loop unrolling), multiplication is not used to calculate the address. Accumulator use the same tactics. Earlier in the decade, C programmers are baffled as to why std::accumulate is faster than for loop. Now we know the reason.
+As for the __Range For Loop__, the address is incremented by 16 (8 + 8 because of loop unrolling), multiplication is not used to calculate the address. Accumulator code use the same tactics. Earlier in the decade, C programmers were baffled as to why std::accumulate was faster than for loop. Now we know the reason.
 
 
 As for the __Iterator For Loop__ poor result, my guess is the iterator overhead.
