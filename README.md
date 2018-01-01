@@ -15,10 +15,14 @@ Please ignore the sum result. I display resultant sum to prevent compiler from o
         Accumulator:  437ms, sum:500000500000
 ```
 
-Investigations shown multiplication in this below assembly could be the culprit in the slowdown in the __Increment For Loop__ . 
+Investigation shows multiplication by 8 for array index subscripting could be the culprit for the slowdown in the __Increment For Loop__ . 
 
 ```
-movdqu   xmm0, XMMWORD PTR vec$[rsp+rax*8]
+sum += vec[i];
+```
+
+```
+movdqu   xmm0, XMMWORD PTR vec$[rsp+rax*8] <== multiplication by 8
 ```
 
 As for the __Range For Loop__, the address is incremented by 16 (8 + 8 because of loop unrolling), multiplication is not used to calculate the address. Accumulator use the same tactics. Earlier in the decade, C programmers are baffled as to why std::accumulate is faster than for loop. Now we know the reason.
