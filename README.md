@@ -2,64 +2,6 @@
 
 The initial motivation is to find out the overhead of different for-loop types in C++.
 
-__Test Machine:__ Intel i7 6700 at 3.4 GHz
-
-## Visual C++ 2017 (15.4 Update) result 
-
-Please ignore the sum result. I display resultant sum to prevent compiler from optimizing away for loop. Visual C++ vectorized the code with SSE2.
-
-```
- Increment For Loop:  599ms, sum:500000500000
-     Range For Loop:  446ms, sum:500000500000
-  Iterator For Loop:  558ms, sum:500000500000
-        Accumulator:  437ms, sum:500000500000
-```
-
-Investigation shows multiplication by 8 for array index subscripting could be the culprit for the slowdown in the __Increment For Loop__ . 
-
-```
-sum += vec[i];
-```
-
-```
-movdqu   xmm0, XMMWORD PTR vec$[rsp+rax*8] <== multiplication by 8
-```
-
-As for the __Range For Loop__, the address is incremented by 16 (8 + 8 because of loop unrolling), multiplication is not used to calculate the address. Accumulator code use the same tactics. Earlier in the decade, C programmers were baffled as to why std::accumulate was faster than for loop. Now we know the reason.
-
-
-As for the __Iterator For Loop__ poor result, my guess is the iterator overhead.
-
-## Cygwin clang++ 3.9.1 Result
-
-clang++ generated the similar code for all 4 loops, hence, similar timing. clang++ vectorized the loops with SSE2. To compile the code with clang++, use the command below.
-
-```
-clang++ ForLoopBenchmark.cpp -O2 -std=c++14
-```
-
-```
- Increment For Loop:  392ms, sum:500000500000
-     Range For Loop:  406ms, sum:500000500000
-  Iterator For Loop:  381ms, sum:500000500000
-        Accumulator:  391ms, sum:500000500000
-```
-
-## Cygwin g++ 5.4 Result 
-
-Like clang++, g++ also generated the similar code for all 4 loops, so they had similar timing but sadly, loops are not vectorized in O2. Specifying O3 vectorize all loops and result is on par with clang++'s O2. To compile the code with g++, use the command below.
-
-```
-g++ ForLoopBenchmark.cpp -O2 -std=c++14
-```
-
-```
- Increment For Loop:  558ms, sum:500000500000
-     Range For Loop:  552ms, sum:500000500000
-  Iterator For Loop:  542ms, sum:500000500000
-        Accumulator:  544ms, sum:500000500000
-```
-
 ## Code
 
 Copy and paste below code into [Godbolt Online C++ Compiler](https://godbolt.org/) to see the generated assembly code.
@@ -122,6 +64,64 @@ uint64_t func4()
     sum = std::accumulate(std::cbegin(vec), std::cend(vec), Zero);
     return sum;
 }
+```
+
+__Test Machine:__ Intel i7 6700 at 3.4 GHz
+
+## Visual C++ 2017 (15.4 Update) result 
+
+Please ignore the sum result. I display resultant sum to prevent compiler from optimizing away for loop. Visual C++ vectorized the code with SSE2.
+
+```
+ Increment For Loop:  599ms, sum:500000500000
+     Range For Loop:  446ms, sum:500000500000
+  Iterator For Loop:  558ms, sum:500000500000
+        Accumulator:  437ms, sum:500000500000
+```
+
+Investigation shows multiplication by 8 for array index subscripting could be the culprit for the slowdown in the __Increment For Loop__ . 
+
+```
+sum += vec[i];
+```
+
+```
+movdqu   xmm0, XMMWORD PTR vec$[rsp+rax*8] <== multiplication by 8
+```
+
+As for the __Range For Loop__, the address is incremented by 16 (8 + 8 because of loop unrolling), multiplication is not used to calculate the address. Accumulator code use the same tactics. Earlier in the decade, C programmers were baffled as to why std::accumulate was faster than for loop. Now we know the reason.
+
+
+As for the __Iterator For Loop__ poor result, my guess is the iterator overhead.
+
+## Cygwin clang++ 3.9.1 Result
+
+clang++ generated the similar code for all 4 loops, hence, similar timing. clang++ vectorized the loops with SSE2. To compile the code with clang++, use the command below.
+
+```
+clang++ ForLoopBenchmark.cpp -O2 -std=c++14
+```
+
+```
+ Increment For Loop:  392ms, sum:500000500000
+     Range For Loop:  406ms, sum:500000500000
+  Iterator For Loop:  381ms, sum:500000500000
+        Accumulator:  391ms, sum:500000500000
+```
+
+## Cygwin g++ 5.4 Result 
+
+Like clang++, g++ also generated the similar code for all 4 loops, so they had similar timing but sadly, loops are not vectorized in O2. Specifying O3 vectorize all loops and result is on par with clang++'s O2. To compile the code with g++, use the command below.
+
+```
+g++ ForLoopBenchmark.cpp -O2 -std=c++14
+```
+
+```
+ Increment For Loop:  558ms, sum:500000500000
+     Range For Loop:  552ms, sum:500000500000
+  Iterator For Loop:  542ms, sum:500000500000
+        Accumulator:  544ms, sum:500000500000
 ```
 
 ## "Is this information even useful?"
