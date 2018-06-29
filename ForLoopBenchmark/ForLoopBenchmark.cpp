@@ -13,12 +13,12 @@ class timer
 {
 public:
 	timer() = default;
-	void start_timing(const std::string& text_)
+	void start(const std::string& text_)
 	{
 		text = text_;
 		begin = std::chrono::high_resolution_clock::now();
 	}
-	void stop_timing(uint64_t sum)
+	void stop(uint64_t sum)
 	{
 		auto end = std::chrono::high_resolution_clock::now();
 		auto dur = end - begin;
@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
 	std::iota(vec.begin(), vec.end(), 1);
 	timer stopwatch;
 
-	stopwatch.start_timing("Increment For Loop");
+	stopwatch.start("Increment For Loop");
 	uint64_t sum = 0;
 	for (size_t k = 0; k < MAX_LOOP; ++k)
 	{
@@ -49,9 +49,9 @@ int main(int argc, char *argv[])
 			sum += vec[i];
 		}
 	}
-	stopwatch.stop_timing(sum);
+	stopwatch.stop(sum);
 
-	stopwatch.start_timing("Range For Loop");
+	stopwatch.start("Range For Loop");
 	for (size_t k = 0; k < MAX_LOOP; ++k)
 	{
 		sum = 0;
@@ -60,9 +60,9 @@ int main(int argc, char *argv[])
 			sum += n;
 		}
 	}
-	stopwatch.stop_timing(sum);
+	stopwatch.stop(sum);
 
-	stopwatch.start_timing("Iterator For Loop");
+	stopwatch.start("Iterator For Loop");
 	for (size_t k = 0; k < MAX_LOOP; ++k)
 	{
 		sum = 0;
@@ -72,15 +72,15 @@ int main(int argc, char *argv[])
 			sum += *it;
 		}
 	}
-	stopwatch.stop_timing(sum);
+	stopwatch.stop(sum);
 
-	stopwatch.start_timing("Accumulator");
+	stopwatch.start("Accumulator");
 	constexpr const uint64_t Zero = 0;
 	for (size_t k = 0; k < MAX_LOOP; ++k)
 	{
 		sum = std::accumulate(vec.cbegin(), vec.cend(), Zero);
 	}
-	stopwatch.stop_timing(sum);
+	stopwatch.stop(sum);
 
     return 0;
 }
